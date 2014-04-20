@@ -7,13 +7,9 @@ angular.module('years', ['ngRoute', 'ngResource'])
     })
 
     .controller('LikeController', function ($scope, $routeParams) {
-        $scope.name = "BookController";
-        $scope.params = $routeParams;
     })
 
     .controller('FortuneController', function ($scope, $routeParams, $resource) {
-        //$scope.name = "ChapterController";
-        //$scope.params = $routeParams;
         $scope.receivedAdvice = '';
         $scope.receivedAdviceToPerson = '';
 
