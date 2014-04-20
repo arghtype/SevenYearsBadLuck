@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Index</title>
+    <script src="lib/angular.js"></script>
+    <script src="lib/angular-route.js"></script>
+    <script src="js/app.js"></script>
+</head>
+<body>
+<div ng-app="years">
+    <div ng-controller="MainController">
+        <p>Angular testing string {{1 + 1}}</p>
+
+        <p><a href="#/Fortune">FortuneTellingMachine</a>
+
+        <p><a href="#/Like">LikePage</a>
+
+        <div ng-view></div>
+    </div>
+</div>
+
+</body>
+</html>
