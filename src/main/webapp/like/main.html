@@ -4,6 +4,17 @@
     <title>LIKE</title>
 </head>
 <body>
-   LIKES
+<div ng-controller="LikeController">
+    <p>
+
+        <div ng-repeat="post in posts">
+            <textarea>{{post.text}}</textarea> likes: {{post.likes}}
+            <button ng-click="likePost(post.id)">+1</button>
+            <button ng-click="dislikePost(post.id)">-1</button>
+        </div>
+
+    <p>
+    Add new post: <input type="text" ng-model="newPost"> <button title="b1" ng-click="addNewPost()">add</button>
+</div>
 </body>
 </html>

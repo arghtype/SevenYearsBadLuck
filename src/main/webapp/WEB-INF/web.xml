@@ -9,7 +9,8 @@
         <init-param>
             <param-name>jersey.config.server.provider.classnames</param-name>
             <param-value>
-                com.epam.mentoring.ws.restful.AdviceResource
+                com.epam.mentoring.ws.restful.AdviceResource,
+                com.epam.mentoring.ws.restful.PostResource
             </param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>

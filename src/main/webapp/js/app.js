@@ -6,7 +6,33 @@ angular.module('years', ['ngRoute', 'ngResource'])
         $scope.$routeParams = $routeParams;
     })
 
-    .controller('LikeController', function ($scope, $routeParams) {
+    .controller('LikeController', function ($scope, $routeParams, $resource) {
+        $scope.posts = [
+            {text:'Запись 1', id:1, likes:0},
+            {text:'Запись 2', id:2, likes:0}];
+
+        $scope.getPostById = function(id){
+            for(var i = 0; $scope.posts[i]; i++){
+                var post = $scope.posts[i];
+                if(post.id == id){
+                    return post;
+                }
+            }
+        };
+
+        $scope.likePost = function (id) {
+            var post = $scope.getPostById(id);
+            if (post){
+                post.likes++;
+            }
+        };
+        $scope.dislikePost = function (id) {
+            var post = $scope.getPostById(id);
+            if (post){
+                post.likes--;
+            }
+        };
+
     })
 
     .controller('FortuneController', function ($scope, $routeParams, $resource) {
