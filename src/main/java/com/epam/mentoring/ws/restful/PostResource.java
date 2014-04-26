@@ -15,12 +15,15 @@ public class PostResource {
     private static final Map<Long, Post> posts = new HashMap<>();
     private static final Logger LOGGER = Logger.getLogger(PostResource.class);
 
-    public PostResource() {
-        LOGGER.info("created PostResource");
-        posts.put(1l, new Post("TEXT1", 1l));
+    static{
+        posts.put(1l, new Post("Post from static creation in PostResource", 1l));
     }
 
-    @PUT
+    public PostResource() {
+        LOGGER.info("created PostResource");
+    }
+
+    @POST
     @Path("/add/{id}/{text}")
     public void addPost(@PathParam("id")Long id, @PathParam("text")String text) {
         LOGGER.info("addPost : " + id + ", " + text);
@@ -34,7 +37,7 @@ public class PostResource {
         posts.remove(id);
     }
 
-    @POST
+    @PUT
     @Path("/like/{id}")
     public void likePost(@PathParam("id")Long id) {
         LOGGER.info("likePost : " + id);
@@ -44,7 +47,7 @@ public class PostResource {
         }
     }
 
-    @POST
+    @PUT
     @Path("/dislike/{id}")
     public void dislikePost(@PathParam("id")Long id) {
         LOGGER.info("dislikePost : " + id);
@@ -91,7 +94,9 @@ public class PostResource {
         }
 
         void dislike() {
-            likes--;
+            if(likes > 0){
+                likes--;
+            }
         }
     }
 }

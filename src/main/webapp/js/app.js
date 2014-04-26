@@ -7,9 +7,33 @@ angular.module('years', ['ngRoute', 'ngResource'])
     })
 
     .controller('LikeController', function ($scope, $routeParams, $resource) {
-        $scope.posts = [
-            {text:'Запись 1', id:1, likes:0},
-            {text:'Запись 2', id:2, likes:0}];
+        $scope.posts = [];
+
+        var postResource = $resource('webapi/likes', {}, {
+            //'id' is not a parameter of resource itself, because we are going to use query() as well
+            get: {method:'GET', url:'webapi/likes/:id', params:{id:'@id'}},
+            delete: {method:'DELETE', url:'webapi/likes/delete/:id', params:{id:'@id'}},
+            like: {method:'PUT', url:'webapi/likes/like/:id', params:{id:'@id'}},
+            dislike: {method:'PUT', url:'webapi/likes/dislike/:id', params:{id:'@id'}},
+            add: {method:'POST', url:'webapi/likes/add/:id/:text', params:{id:'@id', text:'@text'}}
+        });
+
+        $scope.refreshAllPosts = function () {
+            $scope.posts = postResource.query();
+        };
+
+        $scope.refreshAllPosts();
+
+        $scope.updateSinglePost = function(id) {
+            var updatedPost = postResource.get({id:id});
+            updatedPost.$promise.then(function(data){
+                for(var i = 0; $scope.posts[i]; i++) {
+                    if($scope.posts[i].id == id){
+                        $scope.posts[i] = data;
+                    }
+                }
+            })
+        };
 
         $scope.getPostById = function(id){
             for(var i = 0; $scope.posts[i]; i++){
@@ -20,17 +44,42 @@ angular.module('years', ['ngRoute', 'ngResource'])
             }
         };
 
-        $scope.likePost = function (id) {
-            var post = $scope.getPostById(id);
-            if (post){
-                post.likes++;
+        $scope.getNewId = function(){
+            for(var i = 0; $scope.posts[i]; i++){
+                if (!$scope.posts[i + 1]){
+                    return $scope.posts[i].id + 1;
+                }
             }
+            return 1;
+        };
+
+        $scope.likePost = function (id) {
+            var answer = postResource.like({id: id});
+            answer.$promise.then(function(data){
+                $scope.updateSinglePost(id);
+            });
         };
         $scope.dislikePost = function (id) {
-            var post = $scope.getPostById(id);
-            if (post){
-                post.likes--;
-            }
+            var answer = postResource.dislike({id: id});
+            answer.$promise.then(function(data){
+                $scope.updateSinglePost(id);
+            });
+        };
+
+        $scope.addNewPost = function() {
+            var newId = $scope.getNewId();
+            var text = $scope.newPostText;
+            var answer = postResource.add({id:newId, text:text});
+            answer.$promise.then(function(data){
+                $scope.refreshAllPosts();
+            });
+        };
+
+        $scope.deletePost = function(id) {
+            var answer = postResource.delete({id:id});
+            answer.$promise.then(function(data){
+                $scope.refreshAllPosts();
+            });
         };
 
     })
@@ -44,7 +93,6 @@ angular.module('years', ['ngRoute', 'ngResource'])
 
         $scope.getTextData = function (data) {
             var text = '';
-            //TODO
             for (var i = 0; data[i]; i++) {
                 text = text + data[i];
             }
