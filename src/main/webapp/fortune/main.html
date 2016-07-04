@@ -5,13 +5,13 @@
 </head>
 <body>
 <div ng-controller="FortuneController">
-    <button title="b1" ng-click="getRandomAdvice()">GET RANDOM ADVICE</button>
-    <p>{{receivedAdvice}}
-    <p>
+    <p><button title="b1" ng-click="getRandomAdvice()">GET RANDOM ADVICE</button></p>
+    <p>{{receivedAdvice}}</p>
+
     <p><button title="b1" ng-click="getAdviceToPerson()">GET ADVICE</button>
     Name:<input type="text" ng-model="name"/>
-    Birthdate(dd.MM.yyyy):<input type="text" ng-model="birthdate"/>
-    <p>{{receivedAdviceToPerson}}
+    Birthdate(dd.MM.yyyy):<input type="text" ng-model="birthdate"/></p>
+    <p>{{receivedAdviceToPerson}}</p>
 </div>
 </body>
 </html>

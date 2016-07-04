@@ -12,10 +12,10 @@ angular.module('years', ['ngRoute', 'ngResource'])
         var postResource = $resource('webapi/likes', {}, {
             //'id' is not a parameter of resource itself, because we are going to use query() as well
             get: {method:'GET', url:'webapi/likes/:id', params:{id:'@id'}},
-            delete: {method:'DELETE', url:'webapi/likes/delete/:id', params:{id:'@id'}},
+            delete: {method:'DELETE', url:'webapi/likes/:id', params:{id:'@id'}},
             like: {method:'PUT', url:'webapi/likes/like/:id', params:{id:'@id'}},
-            dislike: {method:'PUT', url:'webapi/likes/dislike/:id', params:{id:'@id'}},
-            add: {method:'POST', url:'webapi/likes/add/:id/:text', params:{id:'@id', text:'@text'}}
+            unlike: {method:'PUT', url:'webapi/likes/unlike/:id', params:{id:'@id'}},
+            add: {method:'POST', url:'webapi/likes/add/:text', params:{text:'@text'}}
         });
 
         $scope.refreshAllPosts = function () {
@@ -44,34 +44,25 @@ angular.module('years', ['ngRoute', 'ngResource'])
             }
         };
 
-        $scope.getNewId = function(){
-            for(var i = 0; $scope.posts[i]; i++){
-                if (!$scope.posts[i + 1]){
-                    return $scope.posts[i].id + 1;
-                }
-            }
-            return 1;
-        };
-
         $scope.likePost = function (id) {
             var answer = postResource.like({id: id});
             answer.$promise.then(function(data){
                 $scope.updateSinglePost(id);
             });
         };
-        $scope.dislikePost = function (id) {
-            var answer = postResource.dislike({id: id});
+        $scope.unlikePost = function (id) {
+            var answer = postResource.unlike({id: id});
             answer.$promise.then(function(data){
                 $scope.updateSinglePost(id);
             });
         };
 
         $scope.addNewPost = function() {
-            var newId = $scope.getNewId();
             var text = $scope.newPostText;
-            var answer = postResource.add({id:newId, text:text});
+            var answer = postResource.add({text:text});
             answer.$promise.then(function(data){
                 $scope.refreshAllPosts();
+                $scope.newPostText = '';
             });
         };
 
