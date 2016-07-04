@@ -6,7 +6,8 @@
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
     <name>SevenYearsBadLuck</name>
-    <description>This is a test application for EPAM Mentoring Program. It shows some abilities of JAX-WS and JAX-RS.</description>
+    <description>This is a test application for EPAM Mentoring Program. It shows some abilities of JAX-WS and JAX-RS.
+    </description>
     <url>http://maven.apache.org</url>
     <dependencies>
         <dependency>
@@ -44,17 +45,9 @@
         <finalName>SevenYearsBadLuck</finalName>
         <plugins>
             <plugin>
-                <groupId>org.jboss.as.plugins</groupId>
-                <artifactId>jboss-as-maven-plugin</artifactId>
-                <version>7.5.Final</version>
-                <executions>
-                    <execution>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>deploy</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.wildfly.plugins</groupId>
+                <artifactId>wildfly-maven-plugin</artifactId>
+                <version>1.1.0.Alpha10</version>
             </plugin>
 
             <plugin>
